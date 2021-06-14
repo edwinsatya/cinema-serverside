@@ -22,14 +22,27 @@ class DiscussionController {
 
   static async find(req, res, next) {
     try {
-      const response = await Discussion.find()
-        .populate("userId")
-        .populate({
-          path: "comments",
-          populate: {
-            path: "userId",
-          },
-        });
+      let response;
+      if (req.query.discusId) {
+        const discusId = req.query.discusId;
+        response = await Discussion.findById(discusId)
+          .populate("userId")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "userId",
+            },
+          });
+      } else {
+        response = await Discussion.find()
+          .populate("userId")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "userId",
+            },
+          });
+      }
       res.status(200).json({
         data: response,
         message: "Successful get all data discussion",
@@ -51,6 +64,7 @@ class DiscussionController {
         new: true,
       };
       const response = await Discussion.findByIdAndUpdate(id, update, option);
+      req.io.emit("newDiscussion");
       res.status(200).json({
         data: response,
         message: "Discussion has been updated",
@@ -65,6 +79,7 @@ class DiscussionController {
     try {
       const id = req.params.discusId;
       const response = await Discussion.findByIdAndDelete(id);
+      req.io.emit("newDiscussion");
       res.status(202).json({
         data: response,
         message: "Discussion has been deleted",

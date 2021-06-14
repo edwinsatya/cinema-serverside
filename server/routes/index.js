@@ -4,8 +4,8 @@ const discussionRouter = require("./discussion");
 const commentRouter = require("./comment");
 
 router.use("/users", userRouter);
-router.use("/discussion", discussionRouter);
-router.use("/comment", commentRouter);
+router.use("/discussions", discussionRouter);
+router.use("/comments", commentRouter);
 
 router.use("/", (req, res) => {
   res.status(404).json({
