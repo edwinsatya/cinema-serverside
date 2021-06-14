@@ -17,12 +17,12 @@ const io = require("socket.io")(server, {
 
 switch (process.env.NODE_ENV) {
   case "development":
-    dotenv.config({ path: ".env_development" });
+    dotenv.config({ path: ".env.development" });
     break;
   case "production":
     dotenv.config({ path: ".env" });
   default:
-    dotenv.config({ path: ".env_development" });
+    dotenv.config({ path: ".env.development" });
     break;
 }
 
