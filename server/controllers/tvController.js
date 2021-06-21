@@ -7,30 +7,30 @@ const {
   getSimilar,
 } = require("../helpers/editDataCinema");
 
-class MovieController {
+class TvController {
   static async search(req, res, next) {
     try {
       const search = req.query.search;
       const page = req.query.page;
       const response = await Axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_KEY}&query=${search}&page=${page}`
+        `https://api.themoviedb.org/3/search/tv?api_key=${process.env.TMDB_KEY}&query=${search}&page=${page}`
       );
 
       response.data.results = await Promise.all(
-        response.data.results.map(async (movie) => {
-          if (!movie.backdrop_path) {
-            movie.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+        response.data.results.map(async (tv) => {
+          if (!tv.backdrop_path) {
+            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
           } else {
-            movie.backdrop_path = editImageUrl(movie.backdrop_path);
+            tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
-          if (!movie.poster_path) {
-            movie.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          if (!tv.poster_path) {
+            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
           } else {
-            movie.poster_path = editImageUrl(movie.poster_path);
+            tv.poster_path = editImageUrl(tv.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
-          return movie;
+          tv.video = await getVideo("tv", tv.id);
+          return tv;
         })
       );
 
@@ -46,23 +46,23 @@ class MovieController {
     try {
       const page = req.query.page;
       const response = await Axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&page=${page}&video=true`
+        `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.TMDB_KEY}&page=${page}&video=true`
       );
       response.data.results = await Promise.all(
-        response.data.results.map(async (movie) => {
-          if (!movie.backdrop_path) {
-            movie.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+        response.data.results.map(async (tv) => {
+          if (!tv.backdrop_path) {
+            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
           } else {
-            movie.backdrop_path = editImageUrl(movie.backdrop_path);
+            tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
-          if (!movie.poster_path) {
-            movie.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          if (!tv.poster_path) {
+            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
           } else {
-            movie.poster_path = editImageUrl(movie.poster_path);
+            tv.poster_path = editImageUrl(tv.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
-          return movie;
+          tv.video = await getVideo("tv", tv.id);
+          return tv;
         })
       );
 
@@ -76,9 +76,9 @@ class MovieController {
 
   static async detail(req, res, next) {
     try {
-      const movieId = req.params.movieId;
+      const tvId = req.params.tvId;
       const response = await Axios.get(
-        `http://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_KEY}&adult=true`
+        `http://api.themoviedb.org/3/movie/${tvId}?api_key=${process.env.TMDB_KEY}&adult=true`
       );
       if (!response.data.backdrop_path) {
         response.data.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
@@ -100,10 +100,10 @@ class MovieController {
 
       const [listVideo, listReview, listRecommendation, listSimilar] =
         await Promise.all([
-          getVideo("movie", response.data.id),
-          getReviews("movie", response.data.id),
-          getRecommendations("movie", response.data.id),
-          getSimilar("movie", response.data.id),
+          getVideo("tv", response.data.id),
+          getReviews("tv", response.data.id),
+          getRecommendations("tv", response.data.id),
+          getSimilar("tv", response.data.id),
         ]);
 
       response.data.video = listVideo;
@@ -120,4 +120,4 @@ class MovieController {
   }
 }
 
-module.exports = MovieController;
+module.exports = TvController;
