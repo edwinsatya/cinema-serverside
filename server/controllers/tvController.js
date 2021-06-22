@@ -118,6 +118,134 @@ class TvController {
       next(error);
     }
   }
+
+  static async airingToday(req, res, next) {
+    try {
+      const page = req.query.page;
+      const response = await Axios.get(
+        `https://api.themoviedb.org/3/tv/airing_today?api_key=${process.env.TMDB_KEY}&page=${page}&video=true`
+      );
+      response.data.results = await Promise.all(
+        response.data.results.map(async (tv) => {
+          if (!tv.backdrop_path) {
+            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+          } else {
+            tv.backdrop_path = editImageUrl(tv.backdrop_path);
+          }
+
+          if (!tv.poster_path) {
+            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          } else {
+            tv.poster_path = editImageUrl(tv.poster_path);
+          }
+          tv.video = await getVideo("tv", tv.id);
+          return tv;
+        })
+      );
+
+      res.status(200).json({
+        data: response.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async onAir(req, res, next) {
+    try {
+      const page = req.query.page;
+      const response = await Axios.get(
+        `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.TMDB_KEY}&page=${page}&video=true`
+      );
+      response.data.results = await Promise.all(
+        response.data.results.map(async (tv) => {
+          if (!tv.backdrop_path) {
+            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+          } else {
+            tv.backdrop_path = editImageUrl(tv.backdrop_path);
+          }
+
+          if (!tv.poster_path) {
+            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          } else {
+            tv.poster_path = editImageUrl(tv.poster_path);
+          }
+          tv.video = await getVideo("tv", tv.id);
+          return tv;
+        })
+      );
+
+      res.status(200).json({
+        data: response.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async popular(req, res, next) {
+    try {
+      const page = req.query.page;
+      const response = await Axios.get(
+        `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.TMDB_KEY}&page=${page}&video=true`
+      );
+      response.data.results = await Promise.all(
+        response.data.results.map(async (tv) => {
+          if (!tv.backdrop_path) {
+            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+          } else {
+            tv.backdrop_path = editImageUrl(tv.backdrop_path);
+          }
+
+          if (!tv.poster_path) {
+            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          } else {
+            tv.poster_path = editImageUrl(tv.poster_path);
+          }
+          tv.video = await getVideo("tv", tv.id);
+          return tv;
+        })
+      );
+
+      res.status(200).json({
+        data: response.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async topRated(req, res, next) {
+    try {
+      const page = req.query.page;
+      const response = await Axios.get(
+        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.TMDB_KEY}&page=${page}&video=true`
+      );
+      response.data.results = await Promise.all(
+        response.data.results.map(async (tv) => {
+          if (!tv.backdrop_path) {
+            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+          } else {
+            tv.backdrop_path = editImageUrl(tv.backdrop_path);
+          }
+
+          if (!tv.poster_path) {
+            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          } else {
+            tv.poster_path = editImageUrl(tv.poster_path);
+          }
+          tv.video = await getVideo("tv", tv.id);
+          return tv;
+        })
+      );
+
+      res.status(200).json({
+        data: response.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = TvController;
