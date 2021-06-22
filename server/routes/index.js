@@ -2,10 +2,12 @@ const router = require("express").Router();
 const userRouter = require("./user");
 const discussionRouter = require("./discussion");
 const commentRouter = require("./comment");
+const movieRouter = require("./movie");
 
 router.use("/users", userRouter);
-router.use("/discussion", discussionRouter);
-router.use("/comment", commentRouter);
+router.use("/discussions", discussionRouter);
+router.use("/comments", commentRouter);
+router.use("/movies", movieRouter);
 
 router.use("/", (req, res) => {
   res.status(404).json({

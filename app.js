@@ -1,4 +1,16 @@
 const dotenv = require("dotenv");
+
+switch (process.env.NODE_ENV) {
+  case "development":
+    dotenv.config({ path: ".env.development" });
+    break;
+  case "production":
+    dotenv.config({ path: ".env" });
+  default:
+    dotenv.config({ path: ".env.development" });
+    break;
+}
+
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -14,17 +26,6 @@ const io = require("socket.io")(server, {
     origin: "*",
   },
 });
-
-switch (process.env.NODE_ENV) {
-  case "development":
-    dotenv.config({ path: ".env.development" });
-    break;
-  case "production":
-    dotenv.config({ path: ".env" });
-  default:
-    dotenv.config({ path: ".env.development" });
-    break;
-}
 
 connectDB();
 io.on("connection", (socket) => {
