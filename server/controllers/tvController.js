@@ -61,7 +61,7 @@ class TvController {
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
-          tv.video = await getVideo("tv", tv.id);
+          // tv.video = await getVideo("tv", tv.id);
           return tv;
         })
       );
@@ -138,7 +138,7 @@ class TvController {
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
-          tv.video = await getVideo("tv", tv.id);
+          // tv.video = await getVideo("tv", tv.id);
           return tv;
         })
       );
@@ -170,7 +170,7 @@ class TvController {
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
-          tv.video = await getVideo("tv", tv.id);
+          // tv.video = await getVideo("tv", tv.id);
           return tv;
         })
       );
@@ -202,7 +202,7 @@ class TvController {
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
-          tv.video = await getVideo("tv", tv.id);
+          // tv.video = await getVideo("tv", tv.id);
           return tv;
         })
       );
@@ -234,7 +234,7 @@ class TvController {
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
-          tv.video = await getVideo("tv", tv.id);
+          // tv.video = await getVideo("tv", tv.id);
           return tv;
         })
       );

@@ -61,7 +61,7 @@ class MovieController {
           } else {
             movie.poster_path = editImageUrl(movie.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
+          // movie.video = await getVideo("movie", movie.id);
           return movie;
         })
       );
@@ -138,7 +138,7 @@ class MovieController {
           } else {
             movie.poster_path = editImageUrl(movie.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
+          // movie.video = await getVideo("movie", movie.id);
           return movie;
         })
       );
@@ -170,7 +170,7 @@ class MovieController {
           } else {
             movie.poster_path = editImageUrl(movie.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
+          // movie.video = await getVideo("movie", movie.id);
           return movie;
         })
       );
@@ -202,7 +202,7 @@ class MovieController {
           } else {
             movie.poster_path = editImageUrl(movie.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
+          // movie.video = await getVideo("movie", movie.id);
           return movie;
         })
       );
@@ -233,7 +233,7 @@ class MovieController {
           } else {
             movie.poster_path = editImageUrl(movie.poster_path);
           }
-          movie.video = await getVideo("movie", movie.id);
+          // movie.video = await getVideo("movie", movie.id);
           return movie;
         })
       );
