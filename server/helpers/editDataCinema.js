@@ -50,7 +50,7 @@ async function getRecommendations(type, id) {
     const results = await Promise.all(
       response.data.results.map(async (recommendation) => {
         if (!recommendation.backdrop_path) {
-          recommendation.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+          recommendation.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
         } else {
           recommendation.backdrop_path = editImageUrl(
             recommendation.backdrop_path
@@ -58,7 +58,7 @@ async function getRecommendations(type, id) {
         }
 
         if (!recommendation.poster_path) {
-          recommendation.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          recommendation.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
         } else {
           recommendation.poster_path = editImageUrl(recommendation.poster_path);
         }
@@ -82,13 +82,13 @@ async function getSimilar(type, id) {
     const results = await Promise.all(
       response.data.results.map(async (similar) => {
         if (!similar.backdrop_path) {
-          similar.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+          similar.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
         } else {
           similar.backdrop_path = editImageUrl(similar.backdrop_path);
         }
 
         if (!similar.poster_path) {
-          similar.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+          similar.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
         } else {
           similar.poster_path = editImageUrl(similar.poster_path);
         }

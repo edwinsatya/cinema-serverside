@@ -19,13 +19,13 @@ class TvController {
       response.data.results = await Promise.all(
         response.data.results.map(async (tv) => {
           if (!tv.backdrop_path) {
-            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            tv.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
           if (!tv.poster_path) {
-            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+            tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
@@ -51,13 +51,13 @@ class TvController {
       response.data.results = await Promise.all(
         response.data.results.map(async (tv) => {
           if (!tv.backdrop_path) {
-            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            tv.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
           if (!tv.poster_path) {
-            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+            tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
@@ -81,13 +81,13 @@ class TvController {
         `http://api.themoviedb.org/3/movie/${tvId}?api_key=${process.env.TMDB_KEY}&adult=true`
       );
       if (!response.data.backdrop_path) {
-        response.data.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+        response.data.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
       } else {
         response.data.backdrop_path = editImageUrl(response.data.backdrop_path);
       }
 
       if (!response.data.poster_path) {
-        response.data.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+        response.data.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
       } else {
         response.data.poster_path = editImageUrl(response.data.poster_path);
       }
@@ -128,13 +128,13 @@ class TvController {
       response.data.results = await Promise.all(
         response.data.results.map(async (tv) => {
           if (!tv.backdrop_path) {
-            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            tv.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
           if (!tv.poster_path) {
-            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+            tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
@@ -160,13 +160,13 @@ class TvController {
       response.data.results = await Promise.all(
         response.data.results.map(async (tv) => {
           if (!tv.backdrop_path) {
-            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            tv.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
           if (!tv.poster_path) {
-            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+            tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
@@ -192,13 +192,13 @@ class TvController {
       response.data.results = await Promise.all(
         response.data.results.map(async (tv) => {
           if (!tv.backdrop_path) {
-            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            tv.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
           if (!tv.poster_path) {
-            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+            tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }
@@ -224,13 +224,13 @@ class TvController {
       response.data.results = await Promise.all(
         response.data.results.map(async (tv) => {
           if (!tv.backdrop_path) {
-            tv.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            tv.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             tv.backdrop_path = editImageUrl(tv.backdrop_path);
           }
 
           if (!tv.poster_path) {
-            tv.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+            tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
           } else {
             tv.poster_path = editImageUrl(tv.poster_path);
           }

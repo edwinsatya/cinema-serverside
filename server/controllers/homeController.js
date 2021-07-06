@@ -14,19 +14,19 @@ class HomeController {
       response.data.results = await Promise.all(
         response.data.results.map(async (trending) => {
           if (!trending.backdrop_path) {
-            trending.backdrop_path = `https://wallpaperaccess.com/full/2588754.jpg`;
+            trending.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
           } else {
             trending.backdrop_path = editImageUrl(trending.backdrop_path);
           }
           if (trending.media_type === "person") {
             if (!trending.profile_path) {
-              trending.profile_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+              trending.profile_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
             } else {
               trending.profile_path = editImageUrl(trending.profile_path);
             }
           } else {
             if (!trending.poster_path) {
-              trending.poster_path = `https://d1csarkz8obe9u.cloudfront.net/posterpreviews/coming-soon%2Creopening%2C-event%2Cretail%2Csale-design-template-79543bc1062ebb6f9eb55d1bb7994d49_screen.jpg?ts=1596353421`;
+              trending.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
             } else {
               trending.poster_path = editImageUrl(trending.poster_path);
             }
