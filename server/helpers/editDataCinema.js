@@ -7,7 +7,7 @@ async function getVideo(type, id) {
     );
     const results = response.data.results.map((video) => {
       return {
-        url: `https://www.youtube.com/watch?v=${video.key}`,
+        key: video.key,
         name: video.name,
         site: video.site,
         type: video.type,
