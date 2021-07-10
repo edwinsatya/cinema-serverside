@@ -1,6 +1,7 @@
 const Axios = require("axios");
 const {
   getVideo,
+  getSeasonVideo,
   getReviews,
   getRecommendations,
   getSimilar,
@@ -57,6 +58,44 @@ class TvController {
       response.data.reviews = listReview;
       response.data.recommendations = listRecommendation;
       response.data.similar = listSimilar;
+
+      res.status(200).json({
+        data: response.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async detailSeason(req, res, next) {
+    try {
+      const { tvId, seasonNumber } = req.params;
+      const response = await Axios.get(
+        `http://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${process.env.TMDB_KEY}`
+      );
+
+      response.data.video = await getSeasonVideo(tvId, seasonNumber);
+
+      res.status(200).json({
+        data: response.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async detailEpisode(req, res, next) {
+    try {
+      const { tvId, seasonNumber, episodeNumber } = req.params;
+      const response = await Axios.get(
+        `http://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${process.env.TMDB_KEY}`
+      );
+
+      response.data.video = await getSeasonVideo(
+        tvId,
+        seasonNumber,
+        episodeNumber
+      );
 
       res.status(200).json({
         data: response.data,

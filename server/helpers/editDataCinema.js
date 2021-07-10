@@ -20,6 +20,36 @@ async function getVideo(type, id) {
   }
 }
 
+async function getSeasonVideo(id, seasonNumber, episodeNumber) {
+  try {
+    let result = null;
+    if (!episodeNumber) {
+      const response = await Axios.get(
+        `https://api.themoviedb.org/3/tv/${id}/season/${seasonNumber}/videos?api_key=${process.env.TMDB_KEY}`
+      );
+      result = response.data.results;
+    } else {
+      const response = await Axios.get(
+        `https://api.themoviedb.org/3/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}/videos?api_key=${process.env.TMDB_KEY}`
+      );
+      result = response.data.results;
+    }
+
+    const results = result.map((video) => {
+      return {
+        key: video.key,
+        name: video.name,
+        site: video.site,
+        type: video.type,
+      };
+    });
+    return results;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 // function editImageUrl(img) {
 //   return `https://image.tmdb.org/t/p/original${img}`;
 // movie.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
@@ -70,4 +100,5 @@ module.exports = {
   getReviews,
   getRecommendations,
   getSimilar,
+  getSeasonVideo,
 };
