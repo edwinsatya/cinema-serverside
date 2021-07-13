@@ -21,6 +21,7 @@ class UserController {
         token,
         data: payload,
         message: "Register Success",
+        status: 200,
       });
     } catch (error) {
       next(error);
@@ -54,6 +55,7 @@ class UserController {
             token,
             data: payload,
             message: "Login Success",
+            status: 200,
           });
         }
       }
