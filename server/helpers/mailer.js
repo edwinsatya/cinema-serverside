@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
+const path = require("path");
+const hbs = require("nodemailer-express-handlebars");
 
-async function mailer(user) {
+async function mailer(user, cb) {
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -11,23 +13,31 @@ async function mailer(user) {
     },
   });
 
+  transporter.use(
+    "compile",
+    hbs({
+      viewEngine: {
+        extName: ".handlebars",
+        // partialsDir: path.join(__dirname, "/template/email/"),
+        defaultLayout: false,
+      },
+      viewPath: path.join(__dirname, "/template/email/"),
+    })
+  );
+
   let mailOptions = {
     from: '"Cinema21 👻" <cinema21@gmail.com>', // sender address
     to: `${user.email}`, // list of receivers
     subject: "Welcome to cinema21", // Subject line
     text: "Belum bikin html emailnya, entaran aja masih mager", // plain text body
-    html: `<b>html nya belum ada ya</b>
-                  <button  style="background-color:red;">
-                     <a href="https://www.w3schools.com">Verification</a>
-                  </button>
-          `, // html body
+    template: "verificationEmail",
   };
 
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
-      console.log("err mailer:", err);
+      cb(err, null);
     } else {
-      console.log("Email has been sent");
+      cb(null, data);
     }
   });
 }

@@ -43,7 +43,13 @@ class UserController {
         // let dateJob = `${minute} ${hour} ${day} ${month} *`
         // let dummyJob = "7 18 17 7 *";
         console.log(day, month, hour, minute);
-        await mailer(payload);
+        await mailer(payload, (err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("email has been sent");
+          }
+        });
         let dummyJob = "* * * * *";
         deleteJob(dummyJob, payload.id);
 
@@ -69,7 +75,13 @@ class UserController {
         name: response.name,
         email: response.email,
       };
-      const resMail = await mailer(payload);
+      const resMail = await mailer(payload, (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("email has been resend");
+        }
+      });
       res.status(200).json(resMail);
     } catch (error) {
       next(error);
@@ -83,7 +95,7 @@ class UserController {
       if (!response) {
         throw {
           status: 403,
-          message: "User not found/email is expired",
+          message: "Email is expired",
         };
       } else {
         const data = {
