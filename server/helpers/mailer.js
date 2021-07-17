@@ -11,20 +11,25 @@ async function mailer(user) {
     },
   });
 
-  let info = await transporter.sendMail({
+  let mailOptions = {
     from: '"Cinema21 👻" <cinema21@gmail.com>', // sender address
     to: `${user.email}`, // list of receivers
     subject: "Welcome to cinema21", // Subject line
     text: "Belum bikin html emailnya, entaran aja masih mager", // plain text body
     html: `<b>html nya belum ada ya</b>
-                <button  style="background-color:red;">
-                   <a href="https://www.w3schools.com">Verification</a>
-                </button>
-        `, // html body
-  });
+                  <button  style="background-color:red;">
+                     <a href="https://www.w3schools.com">Verification</a>
+                  </button>
+          `, // html body
+  };
 
-  console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  transporter.sendMail(mailOptions, (err, data) => {
+    if (err) {
+      console.log("err mailer:", err);
+    } else {
+      console.log("Email has been sent");
+    }
+  });
 }
 
 module.exports = {

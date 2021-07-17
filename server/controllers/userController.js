@@ -1,7 +1,9 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+// const cron = require("node-cron");
 const { comparePassword } = require("../helpers/bcrypt");
 const { mailer } = require("../helpers/mailer");
+const { deleteJob } = require("../helpers/cronJob");
 class UserController {
   static async register(req, res, next) {
     try {
@@ -16,7 +18,8 @@ class UserController {
           };
         } else {
           throw {
-            message: "Email already exists with status verified",
+            message:
+              "Email already exists with status verified. Please try with another email",
             status: 403,
           };
         }
@@ -32,8 +35,17 @@ class UserController {
           name: response.name,
         };
         const token = jwt.sign(payload, process.env.JWT_SECRET);
-
+        let currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let hour = currentDate.getHours();
+        let minute = currentDate.getMinutes();
+        // let dateJob = `${minute} ${hour} ${day} ${month} *`
+        // let dummyJob = "7 18 17 7 *";
+        console.log(day, month, hour, minute);
         await mailer(payload);
+        let dummyJob = "* * * * *";
+        deleteJob(dummyJob, payload.id);
 
         res.status(201).json({
           token,
@@ -47,9 +59,52 @@ class UserController {
     }
   }
 
-  static async verificationEmail(req, res, next) {
+  static async sendVerificationEmail(req, res, next) {
+    try {
+      const { id } = req.decoded;
+      const response = await User.findById(id);
+
+      const payload = {
+        id: response._id,
+        name: response.name,
+        email: response.email,
+      };
+      const resMail = await mailer(payload);
+      res.status(200).json(resMail);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async findDetailEmail(req, res, next) {
     try {
       const { id } = req.params;
+      const response = await User.findById(id);
+      if (!response) {
+        throw {
+          status: 403,
+          message: "User not found/email is expired",
+        };
+      } else {
+        const data = {
+          id: response._id,
+          name: response.name,
+          email: response.email,
+        };
+        res.status(201).json({
+          data: data,
+          message: "Detail Email",
+          status: 200,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async verificationEmail(req, res, next) {
+    try {
+      const { id } = req.decoded;
       const update = {
         isActive: true,
       };
@@ -57,6 +112,10 @@ class UserController {
         new: true,
       };
       await User.findByIdAndUpdate(id, update, option);
+      req.io.emit("emailVerified", {
+        id,
+      });
+
       res.status(200).json({
         message: "Your email is verified",
         status: 200,

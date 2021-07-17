@@ -1,9 +1,20 @@
 const router = require("express").Router();
 const User = require("../controllers/userController");
+const { authorizationVerifiedEmail } = require("../middlewares/auth");
 
 router.post("/login", User.login);
-router.patch("/verification/:id", User.verificationEmail);
 router.post("/register", User.register);
+router.get("/register/:id", User.findDetailEmail);
+router.post(
+  "/send-email",
+  authorizationVerifiedEmail,
+  User.sendVerificationEmail
+);
+router.patch(
+  "/verification-email",
+  authorizationVerifiedEmail,
+  User.verificationEmail
+);
 
 router.get("/", (req, res, next) => {
   let err = {
