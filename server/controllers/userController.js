@@ -11,6 +11,13 @@ class UserController {
       const findEmail = await User.findOne({ email });
       if (findEmail) {
         if (!findEmail.isActive) {
+          await mailer(findEmail, (err, data) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log("email has been resend");
+            }
+          });
           throw {
             message:
               "Email already exists with status not verified. Please check your email for verification",
@@ -92,6 +99,7 @@ class UserController {
     try {
       const { id } = req.params;
       const response = await User.findById(id);
+      console.log(id, "respon getnya");
       if (!response) {
         throw {
           status: 403,
@@ -116,23 +124,35 @@ class UserController {
 
   static async verificationEmail(req, res, next) {
     try {
-      const { id } = req.decoded;
+      const { id } = req.params;
       const update = {
         isActive: true,
       };
       const option = {
         new: true,
       };
-      await User.findByIdAndUpdate(id, update, option);
-      req.io.emit("emailVerified", {
-        id,
-        isVerify: true,
-      });
+      const response = await User.findByIdAndUpdate(id, update, option);
+      if (!response) {
+        req.io.emit("emailVerified", {
+          id,
+          isVerify: false,
+        });
 
-      res.status(200).json({
-        message: "Your email is verified",
-        status: 200,
-      });
+        throw {
+          status: 404,
+          message: "Your email is expired, please register again",
+        };
+      } else {
+        req.io.emit("emailVerified", {
+          id,
+          isVerify: true,
+        });
+
+        res.status(200).json({
+          message: "Your email is verified",
+          status: 200,
+        });
+      }
     } catch (error) {
       console.log("verifikasi di tolak!!!!!!!!!");
       next(error);

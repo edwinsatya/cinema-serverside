@@ -44,7 +44,7 @@
       0.5rem 2rem; font-size: 0.5rem; */ padding: 0.8rem 2.5rem; font-size:
       0.75rem; } } @media (min-width: 1024px) { .card-header .title { /*
       font-size: 1.5rem; */ font-size: 3.5rem; } .card-header .sub-title { /*
-      font-size: 2.5rem; */ font-size: 4.5rem; } .card-content { /* font-size:
+      font-size: 2.5rem; */ font-size: 4rem; } .card-content { /* font-size:
       0.7rem; */ font-size: 1.2rem; } .card-footer { /* font-size: 1rem; */
       font-size: 1.5rem; } .card-footer a { /* padding: 0.5rem 2rem; font-size:
       0.5rem; */ padding: 1rem 4rem; font-size: 1rem; } }
@@ -60,15 +60,16 @@
           <div class="sub-title">Welcome Aboard</div>
         </div>
         <div class="card-content">
-          <span>Hi, Cinema21 Lovers,</span>
+          <span>Hi {{name}}, Warm greetings from cinema 21,</span>
         </div>
         <div class="card-content">
           <span>Thank you very much for visiting my portfolio, I really
-            appreciate your presence here. You just need verify your account.
+            appreciate your presence here. You just need verify your email. Need
+            help? contact&nbsp;{{email}}
           </span>
         </div>
         <div class="card-footer">
-          <a href="http://localhost:3000/verify-email" target="_blank">
+          <a href={{id}} target="_blank">
             Verify Email
           </a>
         </div>

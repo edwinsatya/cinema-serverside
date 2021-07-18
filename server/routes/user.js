@@ -10,11 +10,7 @@ router.post(
   authorizationVerifiedEmail,
   User.sendVerificationEmail
 );
-router.patch(
-  "/verification-email",
-  authorizationVerifiedEmail,
-  User.verificationEmail
-);
+router.patch("/verification-email/:id", User.verificationEmail);
 
 router.get("/", (req, res, next) => {
   let err = {

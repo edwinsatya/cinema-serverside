@@ -31,6 +31,11 @@ async function mailer(user, cb) {
     subject: "Welcome to cinema21", // Subject line
     text: "Belum bikin html emailnya, entaran aja masih mager", // plain text body
     template: "verificationEmail",
+    context: {
+      name: `${user.name}`,
+      email: `${process.env.SMTP_EMAIL}`,
+      id: `${process.env.URL_CLIENT}/verify-email/${user.id}`,
+    },
   };
 
   transporter.sendMail(mailOptions, (err, data) => {
