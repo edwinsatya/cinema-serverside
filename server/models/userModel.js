@@ -33,6 +33,12 @@ const userSchema = new Schema(
       required: [true, "Please Input Your Password"],
       minlength: [7, "Password Minimum 7 Characters"],
     },
+    isActive: {
+      type: Boolean,
+    },
+    codeOtp: {
+      type: String,
+    },
   },
   {
     versionKey: false,
@@ -42,6 +48,8 @@ const userSchema = new Schema(
 
 userSchema.pre("save", function (next) {
   this.password = hashPassword(this.password);
+  this.isActive = false;
+  this.codeOtp = "";
   next();
 });
 
