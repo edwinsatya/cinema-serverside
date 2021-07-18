@@ -40,8 +40,9 @@ class UserController {
         let month = currentDate.getMonth() + 1;
         let hour = currentDate.getHours();
         let minute = currentDate.getMinutes();
-        // let dateJob = `${minute} ${hour} ${day} ${month} *`
+        let dateJob = `${minute} ${hour} ${day} ${month} *`;
         // let dummyJob = "7 18 17 7 *";
+        // let dummyJob = "* * * * *";
         await mailer(payload, (err, data) => {
           if (err) {
             console.log(err);
@@ -49,8 +50,8 @@ class UserController {
             console.log("email has been sent");
           }
         });
-        let dummyJob = "* * * * *";
-        deleteJob(dummyJob, payload.id);
+
+        deleteJob(dateJob, payload.id);
 
         res.status(201).json({
           token,
