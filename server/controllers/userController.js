@@ -42,7 +42,6 @@ class UserController {
         let minute = currentDate.getMinutes();
         // let dateJob = `${minute} ${hour} ${day} ${month} *`
         // let dummyJob = "7 18 17 7 *";
-        console.log(day, month, hour, minute);
         await mailer(payload, (err, data) => {
           if (err) {
             console.log(err);
@@ -126,6 +125,7 @@ class UserController {
       await User.findByIdAndUpdate(id, update, option);
       req.io.emit("emailVerified", {
         id,
+        isVerify: true,
       });
 
       res.status(200).json({
@@ -133,6 +133,7 @@ class UserController {
         status: 200,
       });
     } catch (error) {
+      console.log("verifikasi di tolak!!!!!!!!!");
       next(error);
     }
   }

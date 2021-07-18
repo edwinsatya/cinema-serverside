@@ -65,12 +65,20 @@ async function authorizationVerifiedEmail(req, res, next) {
     const registerId = decoded.id;
     const response = await User.findById(registerId);
     if (!response) {
+      req.io.emit("emailVerified", {
+        id: registerId,
+        isVerify: false,
+      });
       throw {
         status: 403,
         message:
           "Your verification email is expired, please register your email again",
       };
     } else if (response._id != registerId) {
+      req.io.emit("emailVerified", {
+        id: registerId,
+        isVerify: false,
+      });
       throw {
         status: 401,
         message: "Unauthorized",
