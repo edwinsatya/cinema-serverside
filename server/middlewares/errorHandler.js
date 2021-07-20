@@ -3,6 +3,7 @@ module.exports = (err, req, res, next) => {
   let message;
   let errors = {};
   console.log(err.name, "error name");
+  console.log(err.status, "error statusnya");
   console.log(err.errors, "errornya");
   console.log(err.message, "errornya");
   console.log(err, "error name");

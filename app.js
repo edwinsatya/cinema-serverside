@@ -30,6 +30,9 @@ const io = require("socket.io")(server, {
 connectDB();
 io.on("connection", (socket) => {
   console.log("connected io");
+  socket.on("disconnect", (reason) => {
+    console.log(reason, "out"); // "ping timeout"
+  });
 });
 
 app.use(cors());
