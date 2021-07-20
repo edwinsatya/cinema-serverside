@@ -206,14 +206,14 @@ class UserController {
             );
 
             if (resOtp) {
-              // await mailer(payload, (err, data) => {
-              //   if (err) {
-              //     console.log(err);
-              //   } else {
-              //     console.log("email has been sent");
-              //   }
-              // });
               console.log(resOtp);
+              await mailer(resOtp, "verifyLogin", (err, data) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("email has been sent");
+                }
+              });
               res.status(200).json({
                 token,
                 data: payload,
