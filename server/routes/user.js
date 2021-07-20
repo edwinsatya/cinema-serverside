@@ -11,6 +11,12 @@ router.post(
   User.sendVerificationEmail
 );
 router.patch("/verification-email/:id", User.verificationEmail);
+router.post("/send-otp", authorizationVerifiedEmail, User.sendOtpLogin);
+router.post(
+  "/verification-otp",
+  authorizationVerifiedEmail,
+  User.verificationOtp
+);
 
 router.get("/", (req, res, next) => {
   let err = {
