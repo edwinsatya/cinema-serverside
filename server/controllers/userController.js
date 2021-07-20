@@ -280,17 +280,19 @@ class UserController {
 
         throw {
           status: 404,
-          message: "Your email is expired, please register again",
+          message: "Your email is expired, please register again.",
         };
       } else {
         if (codeOtp !== response.codeOtp) {
           throw {
             status: 400,
-            message: "Your code otp is not valid",
+            message:
+              "Your code otp is not valid, please check again the letters must be uppercase.",
           };
         } else {
           res.status(200).json({
-            message: "Your code otp is valid",
+            message:
+              "Your code otp is valid, wait a seconds this page auto redirect.",
           });
         }
       }
