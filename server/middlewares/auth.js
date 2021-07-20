@@ -71,8 +71,7 @@ async function authorizationVerifiedEmail(req, res, next) {
       });
       throw {
         status: 403,
-        message:
-          "Your verification email is expired, please register your email again",
+        message: "Your email is expired, please register your email again",
       };
     } else if (response._id != registerId) {
       req.io.emit("emailVerified", {

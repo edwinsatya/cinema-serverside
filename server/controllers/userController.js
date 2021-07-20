@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { comparePassword } = require("../helpers/bcrypt");
 const { mailer } = require("../helpers/mailer");
 const { deleteJob } = require("../helpers/cronJob");
+const randomOtp = require("../helpers/randomOtp");
 class UserController {
   static async register(req, res, next) {
     try {
@@ -11,7 +12,7 @@ class UserController {
       const findEmail = await User.findOne({ email });
       if (findEmail) {
         if (!findEmail.isActive) {
-          await mailer(findEmail, (err, data) => {
+          await mailer(findEmail, "verifyRegister", (err, data) => {
             if (err) {
               console.log(err);
             } else {
@@ -50,7 +51,7 @@ class UserController {
         let dateJob = `${minute} ${hour} ${day} ${month} *`;
         // let dummyJob = "7 18 17 7 *";
         // let dummyJob = "* * * * *";
-        await mailer(payload, (err, data) => {
+        await mailer(payload, "verifyRegister", (err, data) => {
           if (err) {
             console.log(err);
           } else {
@@ -82,14 +83,16 @@ class UserController {
         name: response.name,
         email: response.email,
       };
-      const resMail = await mailer(payload, (err, data) => {
+      const resMail = await mailer(payload, "verifyRegister", (err, data) => {
         if (err) {
           console.log(err);
         } else {
           console.log("email has been resend");
         }
       });
-      res.status(200).json(resMail);
+      res.status(200).json({
+        message: "email has been send",
+      });
     } catch (error) {
       next(error);
     }
@@ -169,25 +172,127 @@ class UserController {
           message: "Email or Password is Wrong!",
         };
       } else {
-        const hashPass = response.password;
-        if (!comparePassword(password, hashPass)) {
+        if (!response.isActive) {
           throw {
             status: 403,
-            message: "Email or Password is Wrong!",
+            message: "Your email is not active, please verify your email first",
           };
         } else {
-          const payload = {
-            id: response._id,
-            email: response.email,
-            name: response.name,
-          };
-          const token = jwt.sign(payload, process.env.JWT_SECRET);
+          const hashPass = response.password;
+          if (!comparePassword(password, hashPass)) {
+            throw {
+              status: 403,
+              message: "Email or Password is Wrong!",
+            };
+          } else {
+            const payload = {
+              id: response._id,
+              email: response.email,
+              name: response.name,
+            };
+            const token = jwt.sign(payload, process.env.JWT_SECRET);
 
+            const update = {
+              codeOtp: randomOtp(),
+            };
+            const option = {
+              new: true,
+            };
+
+            const resOtp = await User.findByIdAndUpdate(
+              payload.id,
+              update,
+              option
+            );
+
+            if (resOtp) {
+              console.log(resOtp);
+              await mailer(resOtp, "verifyLogin", (err, data) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("email has been sent");
+                }
+              });
+              res.status(200).json({
+                token,
+                data: payload,
+                message: "Login Success",
+                status: 200,
+              });
+            } else {
+              throw {
+                status: 403,
+                message: "Email or Password is Wrong!",
+              };
+            }
+          }
+        }
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async sendOtpLogin(req, res, next) {
+    try {
+      const { id } = req.decoded;
+      const update = {
+        codeOtp: randomOtp(),
+      };
+      const option = {
+        new: true,
+      };
+
+      const response = await User.findByIdAndUpdate(id, update, option);
+
+      const payload = {
+        id: response._id,
+        name: response.name,
+        email: response.email,
+        codeOtp: response.codeOtp,
+      };
+      const resMail = await mailer(payload, "verifyLogin", (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("email has been resend");
+        }
+      });
+      res.status(200).json({
+        message: "email has been send",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async verificationOtp(req, res, next) {
+    try {
+      const { id } = req.decoded;
+      const { codeOtp } = req.body;
+      const response = await User.findById(id);
+      if (!response) {
+        req.io.emit("emailVerified", {
+          id,
+          isVerify: false,
+        });
+
+        throw {
+          status: 404,
+          message: "Your email is expired, please register again.",
+        };
+      } else {
+        if (codeOtp !== response.codeOtp) {
+          throw {
+            status: 400,
+            message:
+              "Your code otp is not valid, please check again the letters must be uppercase.",
+          };
+        } else {
           res.status(200).json({
-            token,
-            data: payload,
-            message: "Login Success",
-            status: 200,
+            message:
+              "Your code otp is valid, wait a seconds this page auto redirect.",
           });
         }
       }
