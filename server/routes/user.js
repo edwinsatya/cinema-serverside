@@ -3,6 +3,7 @@ const User = require("../controllers/userController");
 const { authorizationVerifiedEmail } = require("../middlewares/auth");
 
 router.post("/login", User.login);
+router.get("/count-user-on", User.countUserOnline);
 router.post("/register", User.register);
 router.get("/register/:id", User.findDetailEmail);
 router.post(
@@ -17,6 +18,7 @@ router.post(
   authorizationVerifiedEmail,
   User.verificationOtp
 );
+router.patch("/logout", authorizationVerifiedEmail, User.logout);
 
 router.get("/", (req, res, next) => {
   let err = {

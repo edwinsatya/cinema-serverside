@@ -15,9 +15,13 @@ const discussionSchema = new Schema(
       type: Date,
       default: new Date(),
     },
-    comments: {
-      type: [{ type: ObjectId, ref: "Comment" }],
-      default: [],
+    // comments: {
+    //   type: [{ type: ObjectId, ref: "Comment" }],
+    //   default: [],
+    // },
+    replied: {
+      type: ObjectId,
+      ref: "Discussion",
     },
   },
   {

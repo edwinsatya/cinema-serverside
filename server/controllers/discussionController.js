@@ -3,11 +3,20 @@ const Discussion = require("../models/discussionModel");
 class DiscussionController {
   static async create(req, res, next) {
     try {
-      const { discussion } = req.body;
-      const response = await Discussion.create({
-        userId: req.decoded.id,
-        discussion,
-      });
+      const { discussion, replied } = req.body;
+      let response;
+      if (!replied) {
+        response = await Discussion.create({
+          userId: req.decoded.id,
+          discussion,
+        });
+      } else {
+        response = await Discussion.create({
+          userId: req.decoded.id,
+          discussion,
+          replied,
+        });
+      }
 
       req.io.emit("newDiscussion");
       res.status(201).json({
@@ -26,20 +35,22 @@ class DiscussionController {
       if (req.query.discusId) {
         const discusId = req.query.discusId;
         response = await Discussion.findById(discusId)
-          .populate("userId")
+          .populate({ path: "userId", select: "email name color" })
           .populate({
-            path: "comments",
+            path: "replied",
             populate: {
               path: "userId",
+              select: "email name color",
             },
           });
       } else {
         response = await Discussion.find()
-          .populate("userId")
+          .populate({ path: "userId", select: "email name color" })
           .populate({
-            path: "comments",
+            path: "replied",
             populate: {
               path: "userId",
+              select: "email name color",
             },
           });
       }
