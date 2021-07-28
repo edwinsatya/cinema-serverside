@@ -206,7 +206,6 @@ class UserController {
             );
 
             if (resOtp) {
-              console.log(resOtp);
               await mailer(resOtp, "verifyLogin", (err, data) => {
                 if (err) {
                   console.log(err);
@@ -296,9 +295,11 @@ class UserController {
           const option = {
             new: true,
           };
-          await User.findByIdAndUpdate(id, update, option);
+          const responseOtp = await User.findByIdAndUpdate(id, update, option);
+          console.log(responseOtp);
           req.io.emit("updateUserOnline");
           res.status(200).json({
+            data: responseOtp,
             message:
               "Your code otp is valid, wait a seconds this page auto redirect.",
           });
