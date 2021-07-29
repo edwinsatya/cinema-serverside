@@ -1,4 +1,5 @@
 const Discussion = require("../models/discussionModel");
+const filterDirtyWord = require("../helpers/filterDirtyWord");
 
 class DiscussionController {
   static async create(req, res, next) {
@@ -8,12 +9,12 @@ class DiscussionController {
       if (!replied) {
         response = await Discussion.create({
           userId: req.decoded.id,
-          discussion,
+          discussion: filterDirtyWord(discussion),
         });
       } else {
         response = await Discussion.create({
           userId: req.decoded.id,
-          discussion,
+          discussion: filterDirtyWord(discussion),
           replied,
         });
       }
