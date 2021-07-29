@@ -18,26 +18,19 @@ class PersonController {
   static async detail(req, res, next) {
     try {
       const { personId } = req.params;
-      const response = await Axios.get(
-        `https://api.themoviedb.org/3/person/${personId}?api_key=${process.env.TMDB_KEY}`
-      );
 
-      res.status(200).json({
-        data: response.data,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
+      const [detailRes, creditRes] = await Promise.all([
+        Axios.get(
+          `https://api.themoviedb.org/3/person/${personId}?api_key=${process.env.TMDB_KEY}`
+        ),
+        Axios.get(
+          `https://api.themoviedb.org/3/person/${personId}/combined_credits?api_key=${process.env.TMDB_KEY}`
+        ),
+      ]);
 
-  static async detailCredits(req, res, next) {
-    try {
-      const { personId } = req.params;
-      const response = await Axios.get(
-        `https://api.themoviedb.org/3/person/${personId}/combined_credits?api_key=${process.env.TMDB_KEY}`
-      );
-
-      response.data.cast.sort((a, b) => {
+      let response = detailRes.data;
+      let arrCredits = [].concat(creditRes.data.cast);
+      response.credits = arrCredits.sort((a, b) => {
         if (a.release_date === "") {
           return -1;
         } else if (
@@ -55,8 +48,12 @@ class PersonController {
         }
       });
 
+      response.known_for = creditRes.data.cast
+        .sort((a, b) => b.vote_count - a.vote_count)
+        .slice(0, 8);
+
       res.status(200).json({
-        data: response.data,
+        data: response,
       });
     } catch (error) {
       next(error);
