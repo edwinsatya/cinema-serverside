@@ -50,11 +50,18 @@ async function getSeasonVideo(id, seasonNumber, episodeNumber) {
   }
 }
 
-// function editImageUrl(img) {
-//   return `https://image.tmdb.org/t/p/original${img}`;
-// movie.backdrop_path = `https://i.ibb.co/9spxhL0/2588754.jpg`;
-// tv.poster_path = `https://i.ibb.co/6HwNvXv/coming-soon-reopening-event-retail-sale-design-template-79543bc1062ebb6f9eb55d1bb7994d49-screen.jpg`;
-// }
+async function getImages(type, id) {
+  try {
+    const response = await Axios.get(
+      `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${process.env.TMDB_KEY}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
 
 async function getReviews(type, id) {
   try {
@@ -95,10 +102,24 @@ async function getSimilar(type, id) {
   }
 }
 
+async function getCredits(type, id) {
+  try {
+    const response = await Axios.get(
+      `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.TMDB_KEY}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 module.exports = {
   getVideo,
+  getImages,
   getReviews,
   getRecommendations,
   getSimilar,
   getSeasonVideo,
+  getCredits,
 };
