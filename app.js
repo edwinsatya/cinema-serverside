@@ -28,10 +28,19 @@ const io = require("socket.io")(server, {
 });
 
 connectDB();
+
 io.on("connection", (socket) => {
-  console.log("connected io");
+  // socket.on("join", () => {
+  //   currentUserOnline++;
+  //   console.log(currentUserOnline, "trigger baru");
+  //   io.emit("countUserOnline", currentUserOnline);
+  // });
   socket.on("disconnect", (reason) => {
-    console.log(reason, "out"); // "ping timeout"
+    console.log("user out");
+    // if (currentUserOnline > 0) {
+    //   currentUserOnline--;
+    //   io.emit("countUserOnline", currentUserOnline);
+    // }
   });
 });
 

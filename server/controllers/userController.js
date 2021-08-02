@@ -206,7 +206,6 @@ class UserController {
             );
 
             if (resOtp) {
-              console.log(resOtp);
               await mailer(resOtp, "verifyLogin", (err, data) => {
                 if (err) {
                   console.log(err);
@@ -290,12 +289,50 @@ class UserController {
               "Your code otp is not valid, please check again the letters must be uppercase.",
           };
         } else {
+          const update = {
+            isLogin: true,
+          };
+          const option = {
+            new: true,
+          };
+          const responseOtp = await User.findByIdAndUpdate(id, update, option);
+          console.log(responseOtp);
+          req.io.emit("updateUserOnline");
           res.status(200).json({
+            data: responseOtp,
             message:
               "Your code otp is valid, wait a seconds this page auto redirect.",
           });
         }
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async logout(req, res, next) {
+    try {
+      const { id } = req.decoded;
+      const update = {
+        isLogin: false,
+      };
+      const option = {
+        new: true,
+      };
+      await User.findByIdAndUpdate(id, update, option);
+      req.io.emit("updateUserOnline");
+      res.status(200).json({
+        message: "User logout",
+      });
+    } catch (error) {}
+  }
+
+  static async countUserOnline(req, res, next) {
+    try {
+      const response = await User.find({ isLogin: true });
+      res.status(200).json({
+        data: response,
+      });
     } catch (error) {
       next(error);
     }
