@@ -36,7 +36,13 @@ const userSchema = new Schema(
     isActive: {
       type: Boolean,
     },
+    isLogin: {
+      type: Boolean,
+    },
     codeOtp: {
+      type: String,
+    },
+    color: {
       type: String,
     },
   },
@@ -47,9 +53,27 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", function (next) {
+  const listColor = [
+    "#28FFBF",
+    "#512D6D",
+    "#F8485E",
+    "#00C1D4",
+    "#FFF338",
+    "#716F81",
+    "#753422",
+    "#B05B3B",
+    "#FF3F00",
+    "#0F044C",
+    "#9B72AA",
+    "#185ADB",
+    "#A239EA",
+    "#5F939A",
+  ];
   this.password = hashPassword(this.password);
   this.isActive = false;
+  this.isLogin = false;
   this.codeOtp = "";
+  this.color = listColor[Math.floor(Math.random() * listColor.length)];
   next();
 });
 

@@ -1,9 +1,11 @@
 const Axios = require("axios");
 const {
   getVideo,
+  getImages,
   getReviews,
   getRecommendations,
   getSimilar,
+  getCredits,
 } = require("../helpers/editDataCinema");
 
 class MovieController {
@@ -45,18 +47,28 @@ class MovieController {
         `http://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_KEY}`
       );
 
-      const [listVideo, listReview, listRecommendation, listSimilar] =
-        await Promise.all([
-          getVideo("movie", response.data.id),
-          getReviews("movie", response.data.id),
-          getRecommendations("movie", response.data.id),
-          getSimilar("movie", response.data.id),
-        ]);
+      const [
+        listVideo,
+        listReview,
+        listRecommendation,
+        listSimilar,
+        listCredit,
+        listImage,
+      ] = await Promise.all([
+        getVideo("movie", response.data.id),
+        getReviews("movie", response.data.id),
+        getRecommendations("movie", response.data.id),
+        getSimilar("movie", response.data.id),
+        getCredits("movie", response.data.id),
+        getImages("movie", response.data.id),
+      ]);
 
       response.data.video = listVideo;
       response.data.reviews = listReview;
       response.data.recommendations = listRecommendation;
       response.data.similar = listSimilar;
+      response.data.credits = listCredit;
+      response.data.images = listImage;
 
       res.status(200).json({
         data: response.data,
