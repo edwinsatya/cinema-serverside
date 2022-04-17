@@ -29,18 +29,22 @@ const io = require("socket.io")(server, {
 
 connectDB();
 
+let currentUserOnline = 0;
+
 io.on("connection", (socket) => {
   // socket.on("join", () => {
-  //   currentUserOnline++;
+  //   currentUserOnline = currentUserOnline + 1;
   //   console.log(currentUserOnline, "trigger baru");
-  //   io.emit("countUserOnline", currentUserOnline);
+  currentUserOnline++;
+  io.emit("countUserOnline", currentUserOnline);
   // });
+  console.log("masuk");
   socket.on("disconnect", (reason) => {
     console.log("user out");
-    // if (currentUserOnline > 0) {
-    //   currentUserOnline--;
-    //   io.emit("countUserOnline", currentUserOnline);
-    // }
+    if (currentUserOnline > 0) {
+      currentUserOnline = currentUserOnline - 1;
+      io.emit("countUserOnline", currentUserOnline);
+    }
   });
 });
 

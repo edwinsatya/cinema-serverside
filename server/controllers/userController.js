@@ -3,71 +3,95 @@ const jwt = require("jsonwebtoken");
 // const cron = require("node-cron");
 const { comparePassword } = require("../helpers/bcrypt");
 const { mailer } = require("../helpers/mailer");
-const { deleteJob } = require("../helpers/cronJob");
+// const { deleteJob } = require("../helpers/cronJob");
 const randomOtp = require("../helpers/randomOtp");
 class UserController {
+  // static async register(req, res, next) {
+  //   try {
+  //     const { name, email, password } = req.body;
+  //     const findEmail = await User.findOne({ email });
+  //     if (findEmail) {
+  //       if (!findEmail.isActive) {
+  //         await mailer(findEmail, "verifyRegister", (err, data) => {
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log("email has been resend");
+  //           }
+  //         });
+  //         throw {
+  //           message:
+  //             "Email already exists with status not verified. Please check your email for verification",
+  //           status: 403,
+  //         };
+  //       } else {
+  //         throw {
+  //           message:
+  //             "Email already exists with status verified. Please try with another email",
+  //           status: 403,
+  //         };
+  //       }
+  //     } else {
+  //       const response = await User.create({
+  //         name,
+  //         email,
+  //         password,
+  //       });
+  //       const payload = {
+  //         id: response._id,
+  //         email: response.email,
+  //         name: response.name,
+  //       };
+  //       const token = jwt.sign(payload, process.env.JWT_SECRET);
+  //       let currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+  //       let day = currentDate.getDate();
+  //       let month = currentDate.getMonth() + 1;
+  //       let hour = currentDate.getHours();
+  //       let minute = currentDate.getMinutes();
+  //       let dateJob = `${minute} ${hour} ${day} ${month} *`;
+  //       // let dummyJob = "7 18 17 7 *";
+  //       // let dummyJob = "* * * * *";
+  //       await mailer(payload, "verifyRegister", (err, data) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log("email has been sent");
+  //         }
+  //       });
+
+  //       deleteJob(dateJob, payload.id);
+
+  //       res.status(201).json({
+  //         token,
+  //         data: payload,
+  //         message: "Register Success",
+  //         status: 200,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
+
   static async register(req, res, next) {
     try {
-      const { name, email, password } = req.body;
-      const findEmail = await User.findOne({ email });
-      if (findEmail) {
-        if (!findEmail.isActive) {
-          await mailer(findEmail, "verifyRegister", (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log("email has been resend");
-            }
-          });
-          throw {
-            message:
-              "Email already exists with status not verified. Please check your email for verification",
-            status: 403,
-          };
-        } else {
-          throw {
-            message:
-              "Email already exists with status verified. Please try with another email",
-            status: 403,
-          };
-        }
-      } else {
-        const response = await User.create({
-          name,
-          email,
-          password,
-        });
-        const payload = {
-          id: response._id,
-          email: response.email,
-          name: response.name,
-        };
-        const token = jwt.sign(payload, process.env.JWT_SECRET);
-        let currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-        let day = currentDate.getDate();
-        let month = currentDate.getMonth() + 1;
-        let hour = currentDate.getHours();
-        let minute = currentDate.getMinutes();
-        let dateJob = `${minute} ${hour} ${day} ${month} *`;
-        // let dummyJob = "7 18 17 7 *";
-        // let dummyJob = "* * * * *";
-        await mailer(payload, "verifyRegister", (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("email has been sent");
-          }
-        });
+      const { name } = req.body;
+      const response = await User.create({
+        name,
+      });
+      const payload = {
+        id: response._id,
+        name: response.name,
+      };
 
-        deleteJob(dateJob, payload.id);
+      const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-        res.status(201).json({
-          token,
-          data: payload,
-          message: "Register Success",
-          status: 200,
-        });
-      }
+      res.status(201).json({
+        token,
+        data: payload,
+        message: "Register Success",
+        status: 201,
+      });
     } catch (error) {
       next(error);
     }
